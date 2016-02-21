@@ -12,10 +12,12 @@ class MasterViewController: UITableViewController {
 
     var detailViewController: DetailViewController? = nil
     var objects = [AnyObject]()
-    
-    // this will hold an array of the URL's
-    var queryResults = [String]()
 
+    // This will hold my data from the API call
+    var searchResponse = [[String:AnyObject]]()
+    
+    // the url of the query
+    var searchQuery: String = "https://ajax.googleapis.com/ajax/services/search/news?v=1.1&rsz=large&q=apple"
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,7 +29,7 @@ class MasterViewController: UITableViewController {
         let addButton = UIBarButtonItem(barButtonSystemItem: .Add, target: self, action: "insertNewObject:")
         self.navigationItem.rightBarButtonItem = addButton
         
-        // getting detail controller to prepare for segue
+        // getting detail controller to prepare for segue - DONT'T TOUCH 
         if let split = self.splitViewController {
             let controllers = split.viewControllers
             self.detailViewController = (controllers[controllers.count-1] as! UINavigationController).topViewController as? DetailViewController
@@ -37,6 +39,29 @@ class MasterViewController: UITableViewController {
     override func viewWillAppear(animated: Bool) {
         self.clearsSelectionOnViewWillAppear = self.splitViewController!.collapsed
         super.viewWillAppear(animated)
+        
+        
+        // search request
+        GoogleNetworkingManager.sharedInstance.searchRequest(self.searchQuery) { (response) -> Void in
+            
+            // Test that response is not nil and unwrap
+            // if nil then return so prevent reloading table unecesarily. 
+            guard let response = response else {
+                self.makeAlertForNetworkError()
+                return
+            }
+            
+            // Set the response data to the view controller's 'searchResponse' property
+            let apiCallResponse = response
+            self.searchResponse = apiCallResponse["responseData"]!["results"]! as! [[String:AnyObject]]
+            
+            print(self.searchResponse[1]["titleNoFormatting"])
+            
+            dispatch_async(dispatch_get_main_queue()) {
+                self.tableView.reloadData()
+            }
+        }
+        
     }
     
     
@@ -68,16 +93,21 @@ class MasterViewController: UITableViewController {
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return objects.count
         
-        //return queryResults.count
+        print(searchResponse.count)
+        
+        return searchResponse.count
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath)
 
-        let object = objects[indexPath.row] as! NSDate
-        cell.textLabel!.text = object.description
+//        let object = objects[indexPath.row] as! NSDate
+        let searchResult = searchResponse[indexPath.row]
+        
+        // set textLabel
+        cell.textLabel!.text = searchResult["titleNoFormatting"]!.description
+        
         return cell
     }
 
@@ -92,6 +122,21 @@ class MasterViewController: UITableViewController {
             tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
         } else if editingStyle == .Insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
+        }
+    }
+    
+    /// Helper functions
+    /// creates an alertview for network errors
+    func makeAlertForNetworkError() -> Void {
+        let alertController = UIAlertController(title: "Network Error", message: "Get some Internets, Fool 👻👻👻", preferredStyle: .ActionSheet)
+        
+        let OKAction = UIAlertAction(title: "OK", style: .Default) { (action) in
+            return
+        }
+        alertController.addAction(OKAction)
+        
+        self.presentViewController(alertController, animated: true) {
+            return
         }
     }
 

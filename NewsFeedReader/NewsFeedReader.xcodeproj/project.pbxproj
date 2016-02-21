@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		98490AB01C798AE6005E3C48 /* GoogleNetworkingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98490AAF1C798AE6005E3C48 /* GoogleNetworkingManager.swift */; };
 		98F1F68F1C7649C900D55AC1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F1F68E1C7649C900D55AC1 /* AppDelegate.swift */; };
 		98F1F6911C7649C900D55AC1 /* MasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F1F6901C7649C900D55AC1 /* MasterViewController.swift */; };
 		98F1F6931C7649C900D55AC1 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F1F6921C7649C900D55AC1 /* DetailViewController.swift */; };
@@ -27,6 +28,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		98490AAF1C798AE6005E3C48 /* GoogleNetworkingManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GoogleNetworkingManager.swift; sourceTree = "<group>"; };
 		98F1F68B1C7649C900D55AC1 /* NewsFeedReader.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NewsFeedReader.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		98F1F68E1C7649C900D55AC1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		98F1F6901C7649C900D55AC1 /* MasterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterViewController.swift; sourceTree = "<group>"; };
@@ -82,6 +84,7 @@
 				98F1F68E1C7649C900D55AC1 /* AppDelegate.swift */,
 				98F1F6901C7649C900D55AC1 /* MasterViewController.swift */,
 				98F1F6921C7649C900D55AC1 /* DetailViewController.swift */,
+				98490AAF1C798AE6005E3C48 /* GoogleNetworkingManager.swift */,
 				98F1F6941C7649C900D55AC1 /* Main.storyboard */,
 				98F1F6971C7649C900D55AC1 /* Assets.xcassets */,
 				98F1F6991C7649C900D55AC1 /* LaunchScreen.storyboard */,
@@ -200,6 +203,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				98490AB01C798AE6005E3C48 /* GoogleNetworkingManager.swift in Sources */,
 				98F1F6931C7649C900D55AC1 /* DetailViewController.swift in Sources */,
 				98F1F6911C7649C900D55AC1 /* MasterViewController.swift in Sources */,
 				98F1F68F1C7649C900D55AC1 /* AppDelegate.swift in Sources */,
@@ -392,6 +396,7 @@
 				98F1F6AC1C7649C900D55AC1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		98F1F6AD1C7649C900D55AC1 /* Build configuration list for PBXNativeTarget "NewsFeedReaderTests" */ = {
 			isa = XCConfigurationList;
@@ -400,6 +405,7 @@
 				98F1F6AF1C7649C900D55AC1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
