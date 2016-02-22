@@ -41,7 +41,7 @@ class MasterViewController: UITableViewController, UISearchBarDelegate {
         
         if searchQuery == nil {
             searchQuery = searchBase + "apple"
-        } else {}
+        }
     }
 
     override func viewWillAppear(animated: Bool) {
@@ -51,8 +51,8 @@ class MasterViewController: UITableViewController, UISearchBarDelegate {
         // search request
         searchRequest()
         
-//        // adding target (self) and action to refreshControl object of tableViewController
-//        self.refreshControl?.addTarget(self, action: "refreshTable:", forControlEvents: UIControlEvents.ValueChanged)
+        // adding target (self) and action to refreshControl object of tableViewController
+        self.refreshControl?.addTarget(self, action: "refreshTable:", forControlEvents: UIControlEvents.ValueChanged)
     }
 
     // MARK: - Table View
@@ -104,6 +104,12 @@ class MasterViewController: UITableViewController, UISearchBarDelegate {
         }
     }
     
+    // responds to pull to refresh
+    func refreshTable(refreshControl: UIRefreshControl) {
+        searchRequest()
+        refreshControl.endRefreshing()
+    }    
+    
     // MARK: Search Function
     
     // search request
@@ -132,10 +138,13 @@ class MasterViewController: UITableViewController, UISearchBarDelegate {
     
     // MARK: SearchBarDelegate Methods
     func searchBarSearchButtonClicked(searchBar: UISearchBar) {
+        // build query
         searchQuery = searchBase + searchBar.text!
         
+        // make api call
         searchRequest()
         
+        // exit search
         searchBar.resignFirstResponder()
         
     }
