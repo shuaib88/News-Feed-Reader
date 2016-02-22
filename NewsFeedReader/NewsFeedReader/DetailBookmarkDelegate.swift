@@ -8,6 +8,4 @@
 
 import Foundation
 
-protocol DetailBookmarkDelegate: class {
-    func bookmakPassedURL(url: String) -> Void
-}
+

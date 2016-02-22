@@ -33,6 +33,8 @@ class BookMarkViewController: UIViewController, UITableViewDelegate, UITableView
         // set favorites array from the defaults dictionary
         favoritesArray = defaults.objectForKey("favoritesArray") as! [[String:AnyObject]]?
         
+        print("editing mode: \(editing)")
+        
     }
     
     // MARK: - TableView Methods
@@ -82,6 +84,38 @@ class BookMarkViewController: UIViewController, UITableViewDelegate, UITableView
     
     func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
         return true
+    }
+    
+//    func tableView(tableView: UITableView, didDeselectRowAtIndexPath indexPath: NSIndexPath) {
+//        let selectedObject = favoritesArray![indexPath.row]
+//        delegate?.bookmarkPassedObject(selectedObject)
+//    }
+    
+    // MARK: - Segues
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        
+        if segue.identifier == "showDetailFromBookmarks" {
+                print("\(segue.identifier) activated")
+            if let indexPath = self.tableView.indexPathForSelectedRow {
+                
+                // get clicked object
+                let clickedItem = favoritesArray![indexPath.row] as [String:AnyObject]
+                
+                // set controller to pass to
+                let controller = (segue.destinationViewController as! UINavigationController).topViewController as! DetailViewController
+                
+                // set the controller's property
+                controller.detailItem = clickedItem
+                
+                // save the passed object in nsuserdefaults
+                defaults.setObject(clickedItem, forKey: "lastClickedArticle")
+                
+//                // not sure what this is
+//                controller.navigationItem.leftBarButtonItem = self.splitViewController?.displayModeButtonItem()
+//                controller.navigationItem.leftItemsSupplementBackButton = true
+//                print("splitViewController in Bookmarks \(self.splitViewController)")
+            }
+        }
     }
     
     // MARK: edit methods

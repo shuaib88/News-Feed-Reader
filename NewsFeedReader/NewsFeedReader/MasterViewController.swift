@@ -185,6 +185,7 @@ class MasterViewController: UITableViewController, UISearchBarDelegate {
                 // not sure what this is
                 controller.navigationItem.leftBarButtonItem = self.splitViewController?.displayModeButtonItem()
                 controller.navigationItem.leftItemsSupplementBackButton = true
+                print("splitViewController in Master \(self.splitViewController)")
             }
         }
     }

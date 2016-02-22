@@ -148,7 +148,7 @@
                                             <outlet property="contentLabel" destination="bMf-OZ-QkD" id="ygx-WD-gSR"/>
                                             <outlet property="dateLabel" destination="gqS-nO-bgk" id="bd8-rq-AgB"/>
                                             <outlet property="titleLabel" destination="UWu-AE-MTA" id="nm7-Rx-qUD"/>
-                                            <segue destination="vC3-pB-5Vb" kind="showDetail" identifier="showDetailFromBookmarks" id="1r3-4G-f7Q"/>
+                                            <segue destination="vC3-pB-5Vb" kind="showDetail" identifier="showDetailFromBookmarks" id="cXd-kA-Oy4"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -183,7 +183,6 @@
                     <size key="freeformSize" width="600" height="600"/>
                     <connections>
                         <outlet property="tableView" destination="wQF-e9-AxR" id="yVm-0r-Gkq"/>
-                        <segue destination="JEX-9P-axG" kind="showDetail" id="dGV-vS-z9L"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="oim-Ae-9ak" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -304,7 +303,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="dGV-vS-z9L"/>
-        <segue reference="1r3-4G-f7Q"/>
+        <segue reference="cXd-kA-Oy4"/>
     </inferredMetricsTieBreakers>
 </document>

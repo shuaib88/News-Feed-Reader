@@ -10,7 +10,7 @@ import SafariServices
 
 import UIKit
 
-class DetailViewController: UIViewController {
+class DetailViewController: UIViewController, DetailBookmarkDelegate {
 
     
     // MARK: Properties
@@ -112,5 +112,17 @@ class DetailViewController: UIViewController {
             }
         }
     }
+    // not sure how to use this
+    func bookmarkPassedObject(clickedFavoriteObject: [String:AnyObject]) {
+        // set detailItem to selected object
+        detailItem = clickedFavoriteObject
+        configureView()
+        print("bookMarkPassed is being called")
+    }
+    
+}
+
+protocol DetailBookmarkDelegate: class {
+    func bookmarkPassedObject(dictionary: [String:AnyObject]) -> Void
 }
 
