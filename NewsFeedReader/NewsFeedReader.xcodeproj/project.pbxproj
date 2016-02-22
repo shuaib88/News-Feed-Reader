@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		981988701C7BA02A0040D212 /* DetailBookmarkDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9819886F1C7BA02A0040D212 /* DetailBookmarkDelegate.swift */; };
 		98490AB01C798AE6005E3C48 /* GoogleNetworkingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98490AAF1C798AE6005E3C48 /* GoogleNetworkingManager.swift */; };
 		98490AE01C7A7AC0005E3C48 /* MasterViewTableCellTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98490ADF1C7A7AC0005E3C48 /* MasterViewTableCellTableViewCell.swift */; };
 		98490AE41C7AD9BC005E3C48 /* BookMarkViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98490AE31C7AD9BC005E3C48 /* BookMarkViewController.swift */; };
@@ -31,6 +32,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		9819886F1C7BA02A0040D212 /* DetailBookmarkDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailBookmarkDelegate.swift; sourceTree = "<group>"; };
 		98490AAF1C798AE6005E3C48 /* GoogleNetworkingManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GoogleNetworkingManager.swift; sourceTree = "<group>"; };
 		98490ADF1C7A7AC0005E3C48 /* MasterViewTableCellTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MasterViewTableCellTableViewCell.swift; sourceTree = "<group>"; };
 		98490AE31C7AD9BC005E3C48 /* BookMarkViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookMarkViewController.swift; sourceTree = "<group>"; };
@@ -89,6 +91,7 @@
 			children = (
 				98F1F68E1C7649C900D55AC1 /* AppDelegate.swift */,
 				98F1F6901C7649C900D55AC1 /* MasterViewController.swift */,
+				9819886F1C7BA02A0040D212 /* DetailBookmarkDelegate.swift */,
 				98490ADF1C7A7AC0005E3C48 /* MasterViewTableCellTableViewCell.swift */,
 				98F1F6921C7649C900D55AC1 /* DetailViewController.swift */,
 				98490AE71C7B054F005E3C48 /* Helper.swift */,
@@ -215,6 +218,7 @@
 				98490AB01C798AE6005E3C48 /* GoogleNetworkingManager.swift in Sources */,
 				98490AE81C7B054F005E3C48 /* Helper.swift in Sources */,
 				98F1F6931C7649C900D55AC1 /* DetailViewController.swift in Sources */,
+				981988701C7BA02A0040D212 /* DetailBookmarkDelegate.swift in Sources */,
 				98F1F6911C7649C900D55AC1 /* MasterViewController.swift in Sources */,
 				98490AE01C7A7AC0005E3C48 /* MasterViewTableCellTableViewCell.swift in Sources */,
 				98490AE41C7AD9BC005E3C48 /* BookMarkViewController.swift in Sources */,

@@ -12,7 +12,10 @@ class BookMarkViewController: UIViewController, UITableViewDelegate, UITableView
     
     //Properties
     @IBOutlet weak var tableView: UITableView!
-
+    @IBOutlet weak var toolbar: UIToolbar!
+    
+    weak var delegate: DetailBookmarkDelegate?
+    
     // the array that has stuff in it
     var favoritesArray: [[String:AnyObject]]?
     
@@ -30,24 +33,7 @@ class BookMarkViewController: UIViewController, UITableViewDelegate, UITableView
         // set favorites array from the defaults dictionary
         favoritesArray = defaults.objectForKey("favoritesArray") as! [[String:AnyObject]]?
         
-        
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
     
     // MARK: - TableView Methods
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -82,5 +68,26 @@ class BookMarkViewController: UIViewController, UITableViewDelegate, UITableView
         return cell
 
     }
-
+    
+    // allows delete or insert to happen
+    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+        if editingStyle == .Delete {
+            favoritesArray!.removeAtIndex(indexPath.row)
+            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
+        } else if editingStyle == .Insert {
+            // not implementing insert
+        }
+    }
+    
+    func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+        return true
+    }
+    
+    // MARK: edit methods
+    
+    // stuck on how to make editing mode work
+    @IBAction func enterEditingMode(sender: AnyObject) {
+        editing = !editing
+        tableView.setEditing(editing, animated: true)
+    }
 }

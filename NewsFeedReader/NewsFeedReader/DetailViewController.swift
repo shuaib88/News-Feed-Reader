@@ -16,7 +16,9 @@ class DetailViewController: UIViewController {
     // MARK: Properties
     @IBOutlet var webView: UIWebView!
     
+    @IBOutlet weak var toolbar: UIToolbar!
     // user defaults
+    
     let defaults = NSUserDefaults.standardUserDefaults()
 
     // when passed froms segue detail item is a specific response object [[String:AnyObject]]
@@ -94,7 +96,7 @@ class DetailViewController: UIViewController {
         
     }
     
-    /// MARK: Sarari Controller Methods
+    /// MARK: Safari Controller Methods
     
     /// - Attributions: https://www.youtube.com/watch?v=Rva9ylPHi2w
     func loadAddressUrl() {
@@ -110,7 +112,5 @@ class DetailViewController: UIViewController {
             }
         }
     }
-
-
 }
 

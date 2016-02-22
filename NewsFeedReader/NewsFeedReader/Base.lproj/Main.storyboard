@@ -33,12 +33,15 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <webView contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="eh4-wD-LJT">
+                            <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eh4-wD-LJT">
                                 <rect key="frame" x="0.0" y="64" width="600" height="492"/>
                                 <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="deviceRGB"/>
                             </webView>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cX0-QG-gQU">
                                 <rect key="frame" x="0.0" y="556" width="600" height="44"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="mUb-KN-ig0"/>
+                                </constraints>
                                 <items>
                                     <barButtonItem title="Add to Bookmarks" id="m5i-gq-KXv">
                                         <connections>
@@ -50,13 +53,14 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="cX0-QG-gQU" firstAttribute="leading" secondItem="svH-Pt-448" secondAttribute="leading" id="KIy-gn-7Mn"/>
-                            <constraint firstItem="eh4-wD-LJT" firstAttribute="leading" secondItem="svH-Pt-448" secondAttribute="leading" id="Kb5-zY-gAJ"/>
-                            <constraint firstItem="GAO-Cl-Wes" firstAttribute="top" secondItem="cX0-QG-gQU" secondAttribute="bottom" id="OQO-WT-9hU"/>
-                            <constraint firstItem="cX0-QG-gQU" firstAttribute="top" secondItem="eh4-wD-LJT" secondAttribute="bottom" id="V34-gU-xee"/>
-                            <constraint firstItem="GAO-Cl-Wes" firstAttribute="top" secondItem="cX0-QG-gQU" secondAttribute="bottom" id="bZE-zW-BEP"/>
-                            <constraint firstAttribute="trailing" secondItem="cX0-QG-gQU" secondAttribute="trailing" id="g5f-oE-P4U"/>
-                            <constraint firstAttribute="trailing" secondItem="eh4-wD-LJT" secondAttribute="trailing" id="uC9-QV-UmW"/>
+                            <constraint firstAttribute="trailing" secondItem="cX0-QG-gQU" secondAttribute="trailing" id="3yh-c3-Kgd"/>
+                            <constraint firstAttribute="trailing" secondItem="eh4-wD-LJT" secondAttribute="trailing" id="4o7-1u-NhH"/>
+                            <constraint firstItem="GAO-Cl-Wes" firstAttribute="top" secondItem="cX0-QG-gQU" secondAttribute="bottom" id="H6v-Lh-JdC"/>
+                            <constraint firstItem="eh4-wD-LJT" firstAttribute="leading" secondItem="svH-Pt-448" secondAttribute="leading" id="Qyc-Wi-G57"/>
+                            <constraint firstItem="cX0-QG-gQU" firstAttribute="top" secondItem="eh4-wD-LJT" secondAttribute="bottom" id="StO-VJ-dhC"/>
+                            <constraint firstItem="eh4-wD-LJT" firstAttribute="top" secondItem="SYR-Wa-9uf" secondAttribute="bottom" id="TJy-7Q-lxI"/>
+                            <constraint firstItem="cX0-QG-gQU" firstAttribute="top" secondItem="eh4-wD-LJT" secondAttribute="bottom" id="jXp-1y-KaK"/>
+                            <constraint firstItem="cX0-QG-gQU" firstAttribute="leading" secondItem="svH-Pt-448" secondAttribute="leading" id="l1L-QU-rgk"/>
                         </constraints>
                     </view>
                     <toolbarItems/>
@@ -70,6 +74,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="toolbar" destination="cX0-QG-gQU" id="xTl-p9-2tU"/>
                         <outlet property="webView" destination="eh4-wD-LJT" id="S8b-oi-SUq"/>
                     </connections>
                 </viewController>
@@ -89,7 +94,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="78" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="wQF-e9-AxR">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="78" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="wQF-e9-AxR">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="379"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
@@ -148,8 +153,28 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jeO-ga-4hy">
+                                <rect key="frame" x="0.0" y="556" width="600" height="44"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="10i-e4-f32"/>
+                                </constraints>
+                                <items>
+                                    <barButtonItem systemItem="edit" id="c5P-k8-G42">
+                                        <connections>
+                                            <action selector="enterEditingMode:" destination="lwa-8y-qbT" id="sYS-3d-gv5"/>
+                                        </connections>
+                                    </barButtonItem>
+                                </items>
+                            </toolbar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="jeO-ga-4hy" secondAttribute="trailing" id="5IU-NV-3z2"/>
+                            <constraint firstItem="wQF-e9-AxR" firstAttribute="leading" secondItem="tBl-qZ-N82" secondAttribute="leading" id="8Ff-4x-A4M"/>
+                            <constraint firstAttribute="trailing" secondItem="wQF-e9-AxR" secondAttribute="trailing" id="EMF-ST-xlo"/>
+                            <constraint firstItem="jeO-ga-4hy" firstAttribute="leading" secondItem="tBl-qZ-N82" secondAttribute="leading" id="XWq-38-6P6"/>
+                            <constraint firstItem="iax-Ch-NjM" firstAttribute="top" secondItem="jeO-ga-4hy" secondAttribute="bottom" id="gjp-so-91A"/>
+                        </constraints>
                     </view>
                     <value key="contentSizeForViewInPopover" type="size" width="500" height="500"/>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
