@@ -73,6 +73,7 @@ class BookMarkViewController: UIViewController, UITableViewDelegate, UITableView
     func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         if editingStyle == .Delete {
             favoritesArray!.removeAtIndex(indexPath.row)
+            deleteFavoriteItem(indexPath.row)
             tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
         } else if editingStyle == .Insert {
             // not implementing insert
@@ -90,4 +91,17 @@ class BookMarkViewController: UIViewController, UITableViewDelegate, UITableView
         editing = !editing
         tableView.setEditing(editing, animated: true)
     }
+    
+    // delete item from bookmarks array
+    func deleteFavoriteItem(index: Int) -> Void {
+        // if defaults has values, add item to bookmarks dictionary
+        var array = defaults.objectForKey("favoritesArray") as! [[String:AnyObject]]?
+            
+        // append item to array
+        array!.removeAtIndex(index)
+        
+        // re-add the array to nsuserdefaults
+        defaults.setObject(array, forKey: "favoritesArray")
+    }
+    
 }
