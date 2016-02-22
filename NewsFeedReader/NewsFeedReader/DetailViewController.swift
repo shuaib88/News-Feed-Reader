@@ -14,7 +14,6 @@ class DetailViewController: UIViewController {
 
     
     // MARK: Properties
-    @IBOutlet weak var detailDescriptionLabel: UILabel!
     @IBOutlet var webView: UIWebView!
     
     // user defaults
@@ -47,10 +46,12 @@ class DetailViewController: UIViewController {
             
             if let _ = webView {
                 
-                let storedDetailItem = defaults.objectForKey("lastClickedArticle")
+                detailItem = defaults.objectForKey("lastClickedArticle") as? [String:AnyObject]
+//                let storedDetailItem = defaults.objectForKey("lastClickedArticle")
                 
                 // set url
-                url = storedDetailItem!["unescapedUrl"] as? String
+                url = detailItem!["unescapedUrl"] as? String
+//                url = storedDetailItem!["unescapedUrl"] as? String
                 
                 // open webView
                 loadAddressUrl()
@@ -67,6 +68,30 @@ class DetailViewController: UIViewController {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
                 self.configureView()
+    }
+    
+    /// MARK: Segues
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "presentAsPopover" {
+            print("Present as popover segue triggered")
+        }
+    }
+    @IBAction func addToBookmark(sender: UIBarButtonItem) {
+        // if defaults has values, add item to bookmarks dictionary
+        if var array = defaults.objectForKey("favoritesArray") as! [[String:AnyObject]]? {
+            
+            // append item to array
+            array.append(detailItem!)
+            
+            // re-add the array to nsuserdefaults
+            defaults.setObject(array, forKey: "favoritesArray")
+
+        } else {
+            // initializes defaults with an empty array of strings
+            let defaultsArray: [[String:AnyObject]] = []
+            defaults.setObject(defaultsArray, forKey: "favoritesArray")
+        }
+        
     }
     
     /// MARK: Sarari Controller Methods
