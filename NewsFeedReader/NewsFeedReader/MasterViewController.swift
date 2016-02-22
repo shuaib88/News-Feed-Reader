@@ -10,7 +10,6 @@ import UIKit
 
 class MasterViewController: UITableViewController, UISearchBarDelegate {
 
-    
     // MARK: Properties
     
     /// - Attributions: http://shrikar.com/swift-ios-tutorial-uisearchbar-and-uisearchbardelegate/ SearchBar
@@ -23,10 +22,12 @@ class MasterViewController: UITableViewController, UISearchBarDelegate {
     var searchResponse = [[String:AnyObject]]()
     
     // the url of the query
-//    var searchQuery: String = "https://ajax.googleapis.com/ajax/services/search/news?v=1.1&rsz=large&q=apple"
     var searchQuery: String?
     let searchBase = "https://ajax.googleapis.com/ajax/services/search/news?v=1.1&rsz=large&q="
   
+    // defaults
+    let defaults = NSUserDefaults.standardUserDefaults()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -41,6 +42,16 @@ class MasterViewController: UITableViewController, UISearchBarDelegate {
         
         if searchQuery == nil {
             searchQuery = searchBase + "apple"
+        }
+        
+        // initialize a search
+        if let _ = defaults.objectForKey("lastSearchTerm") {
+            let savedSearchTerm = defaults.objectForKey("lastSearchTerm") as! String
+            searchQuery = searchBase + savedSearchTerm
+            print("Saved search term: \(savedSearchTerm) ✌️")
+        } else {
+            searchQuery = searchBase + "apple"
+            print("Never Searched:🖕")
         }
     }
 
@@ -138,8 +149,13 @@ class MasterViewController: UITableViewController, UISearchBarDelegate {
     
     // MARK: SearchBarDelegate Methods
     func searchBarSearchButtonClicked(searchBar: UISearchBar) {
+
+        let enteredText = searchBar.text!
         // build query
-        searchQuery = searchBase + searchBar.text!
+        searchQuery = searchBase + enteredText
+        
+        // save search term in nsuserdefaults
+        defaults.setObject(enteredText, forKey: "lastSearchTerm")
         
         // make api call
         searchRequest()
@@ -162,6 +178,9 @@ class MasterViewController: UITableViewController, UISearchBarDelegate {
                 
                 // set the controller's property
                 controller.detailItem = searchResult
+                
+                // save the passed object in nsuserdefaults
+                defaults.setObject(searchResult, forKey: "lastClickedArticle")
                 
                 // not sure what this is
                 controller.navigationItem.leftBarButtonItem = self.splitViewController?.displayModeButtonItem()

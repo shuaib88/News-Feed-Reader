@@ -15,8 +15,10 @@ class DetailViewController: UIViewController {
     
     // MARK: Properties
     @IBOutlet weak var detailDescriptionLabel: UILabel!
-
     @IBOutlet var webView: UIWebView!
+    
+    // user defaults
+    let defaults = NSUserDefaults.standardUserDefaults()
 
     // when passed froms segue detail item is a specific response object [[String:AnyObject]]
     var detailItem: [String:AnyObject]?
@@ -29,7 +31,7 @@ class DetailViewController: UIViewController {
     
     // configures the elements of the view when called
     func configureView() {
-        // Update the user interface for the detail item.
+        // Update the user interface with either the detail item or stored item
         if let detail = self.detailItem {
             
             if let _ = webView {
@@ -38,23 +40,21 @@ class DetailViewController: UIViewController {
                 
                 // open webView
                 loadAddressUrl()
-            }
-            
+            } else {
 
+            }
+        } else {
             
-            // if let label = self.detailDescriptionLabel {
+            if let _ = webView {
                 
-                // test that url is correctly loading -- delete later
-                // label.text = "http://www.google.com"
+                let storedDetailItem = defaults.objectForKey("lastClickedArticle")
                 
                 // set url
-                url = detail["unescapedUrl"] as? String
+                url = storedDetailItem!["unescapedUrl"] as? String
                 
                 // open webView
                 loadAddressUrl()
-                
-                
-            // }
+            }
         }
     }
 

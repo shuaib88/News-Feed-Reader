@@ -102,19 +102,22 @@
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="136"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vHk-mA-R23">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vHk-mA-R23">
                                             <rect key="frame" x="8" y="47" width="584" height="24"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="24" id="atJ-SU-K52"/>
+                                            </constraints>
                                             <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Content" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0k3-8p-WFG">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Content" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0k3-8p-WFG">
                                             <rect key="frame" x="8" y="76" width="584" height="52"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Date" textAlignment="natural" lineBreakMode="headTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2oi-vR-ysD">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Date" textAlignment="natural" lineBreakMode="headTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2oi-vR-ysD">
                                             <rect key="frame" x="8" y="18" width="42" height="24"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                             <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
@@ -128,6 +131,7 @@
                                         <constraint firstItem="vHk-mA-R23" firstAttribute="leading" secondItem="37f-cq-3Eg" secondAttribute="leadingMargin" id="Ze3-3l-rbY"/>
                                         <constraint firstItem="0k3-8p-WFG" firstAttribute="bottom" secondItem="37f-cq-3Eg" secondAttribute="bottomMargin" id="djj-RR-bYJ"/>
                                         <constraint firstItem="0k3-8p-WFG" firstAttribute="trailing" secondItem="37f-cq-3Eg" secondAttribute="trailingMargin" id="eV0-lk-cW3"/>
+                                        <constraint firstItem="vHk-mA-R23" firstAttribute="top" secondItem="37f-cq-3Eg" secondAttribute="top" constant="47" id="lec-e8-QHd"/>
                                         <constraint firstItem="2oi-vR-ysD" firstAttribute="leading" secondItem="37f-cq-3Eg" secondAttribute="leadingMargin" id="lmS-rh-rIS"/>
                                         <constraint firstItem="0k3-8p-WFG" firstAttribute="top" secondItem="vHk-mA-R23" secondAttribute="bottom" constant="5" id="nE9-Ey-o7m"/>
                                         <constraint firstItem="vHk-mA-R23" firstAttribute="top" secondItem="2oi-vR-ysD" secondAttribute="bottom" constant="5" id="rMb-4p-Nch"/>

@@ -21,6 +21,10 @@ class GoogleNetworkingManager {
     // what's in the completion block
     func searchRequest(urlString: String, completion: ([String: AnyObject]?) -> Void) {
         
+        /// - Attributions: http://www.ioscreator.com/tutorials/display-activity-indicator-status-bar-ios8-swift
+        // start networking activity indicator
+        UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+        
         // convert string into an NSURL object
         guard let url = NSURL(string: urlString)
             else { fatalError("No URL") }
@@ -59,6 +63,9 @@ class GoogleNetworkingManager {
                 print("error serializing JSON: \(error)")
                 completion(nil)
             }
+            
+            // turn off network activity
+            UIApplication.sharedApplication().networkActivityIndicatorVisible = false
         })
         
         // Start the downloading. NSURLSession objects are created in the paused state, so to start it we need to tell it to resume
