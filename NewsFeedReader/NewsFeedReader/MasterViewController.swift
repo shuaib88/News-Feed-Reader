@@ -8,8 +8,14 @@
 
 import UIKit
 
-class MasterViewController: UITableViewController {
+class MasterViewController: UITableViewController, UISearchBarDelegate {
 
+    
+    // MARK: Properties
+    
+    /// - Attributions: http://shrikar.com/swift-ios-tutorial-uisearchbar-and-uisearchbardelegate/ SearchBar
+
+    @IBOutlet weak var searchBar: UISearchBar!
     var detailViewController: DetailViewController? = nil
     var objects = [AnyObject]()
 
@@ -17,73 +23,36 @@ class MasterViewController: UITableViewController {
     var searchResponse = [[String:AnyObject]]()
     
     // the url of the query
-    var searchQuery: String = "https://ajax.googleapis.com/ajax/services/search/news?v=1.1&rsz=large&q=apple"
-
+//    var searchQuery: String = "https://ajax.googleapis.com/ajax/services/search/news?v=1.1&rsz=large&q=apple"
+    var searchQuery: String?
+    let searchBase = "https://ajax.googleapis.com/ajax/services/search/news?v=1.1&rsz=large&q="
+  
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
-        // added edit button
-        self.navigationItem.leftBarButtonItem = self.editButtonItem()
-        
-        // add an "add button" with the prescribed action
-        let addButton = UIBarButtonItem(barButtonSystemItem: .Add, target: self, action: "insertNewObject:")
-        self.navigationItem.rightBarButtonItem = addButton
         
         // getting detail controller to prepare for segue - DONT'T TOUCH 
         if let split = self.splitViewController {
             let controllers = split.viewControllers
             self.detailViewController = (controllers[controllers.count-1] as! UINavigationController).topViewController as? DetailViewController
         }
+        
+        // assign Search Bar delegate
+        searchBar.delegate = self
+        
+        if searchQuery == nil {
+            searchQuery = searchBase + "apple"
+        } else {}
     }
 
     override func viewWillAppear(animated: Bool) {
         self.clearsSelectionOnViewWillAppear = self.splitViewController!.collapsed
         super.viewWillAppear(animated)
         
-        
         // search request
-        GoogleNetworkingManager.sharedInstance.searchRequest(self.searchQuery) { (response) -> Void in
-            
-            // Test that response is not nil and unwrap
-            // if nil then return so prevent reloading table unecesarily. 
-            guard let response = response else {
-                self.makeAlertForNetworkError()
-                return
-            }
-            
-            // Set the response data to the view controller's 'searchResponse' property
-            let apiCallResponse = response
-            self.searchResponse = apiCallResponse["responseData"]!["results"]! as! [[String:AnyObject]]
-            
-            print(self.searchResponse[1]["titleNoFormatting"])
-            
-            dispatch_async(dispatch_get_main_queue()) {
-                self.tableView.reloadData()
-            }
-        }
+        searchRequest()
         
-    }
-    
-    
-    // inserting objects
-    func insertNewObject(sender: AnyObject) {
-        objects.insert(NSDate(), atIndex: 0)
-        let indexPath = NSIndexPath(forRow: 0, inSection: 0)
-        self.tableView.insertRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
-    }
-
-    // MARK: - Segues
-
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if segue.identifier == "showDetail" {
-            if let indexPath = self.tableView.indexPathForSelectedRow {
-                let object = objects[indexPath.row] as! NSDate
-                let controller = (segue.destinationViewController as! UINavigationController).topViewController as! DetailViewController
-                controller.detailItem = object
-                controller.navigationItem.leftBarButtonItem = self.splitViewController?.displayModeButtonItem()
-                controller.navigationItem.leftItemsSupplementBackButton = true
-            }
-        }
+//        // adding target (self) and action to refreshControl object of tableViewController
+//        self.refreshControl?.addTarget(self, action: "refreshTable:", forControlEvents: UIControlEvents.ValueChanged)
     }
 
     // MARK: - Table View
@@ -94,19 +63,29 @@ class MasterViewController: UITableViewController {
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        print(searchResponse.count)
-        
         return searchResponse.count
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath)
+        let cell = tableView.dequeueReusableCellWithIdentifier("MasterTableViewCell", forIndexPath: indexPath) as! MasterTableViewCell
 
-//        let object = objects[indexPath.row] as! NSDate
         let searchResult = searchResponse[indexPath.row]
         
-        // set textLabel
-        cell.textLabel!.text = searchResult["titleNoFormatting"]!.description
+        // get title, content, and date
+        let title = searchResult["titleNoFormatting"]! as? String
+        let content = searchResult["content"]! as? String
+        let date = searchResult["publishedDate"]! as? String
+        let formattedDate = dateFormatter(date!)
+        
+        // set cell title, content, date
+        cell.dateLabel!.attributedText = formattedDate.html2attributedString()
+        cell.titleLabel!.attributedText = title?.html2attributedString()
+        cell.contentLabel!.attributedText = content?.html2attributedString()
+
+        // stylize the font
+        cell.dateLabel.font = UIFont (name: "HelveticaNeue", size: 15)
+        cell.titleLabel.font = UIFont (name: "Helvetica-Bold", size: 20)
+        cell.contentLabel.font = UIFont (name: "HelveticaNeue", size: 17)
         
         return cell
     }
@@ -125,6 +104,63 @@ class MasterViewController: UITableViewController {
         }
     }
     
+    // MARK: Search Function
+    
+    // search request
+    func searchRequest() -> Void {
+        
+        GoogleNetworkingManager.sharedInstance.searchRequest(self.searchQuery!) { (response) -> Void in
+            
+            // Test that response is not nil and unwrap
+            // if nil then return so prevent reloading table unecesarily.
+            guard let response = response else {
+                self.makeAlertForNetworkError()
+                return
+            }
+            
+            // Set the response data to the view controller's 'searchResponse' property
+            let apiCallResponse = response
+            self.searchResponse = apiCallResponse["responseData"]!["results"]! as! [[String:AnyObject]]
+            
+            // force a reload data on the main queue
+            dispatch_async(dispatch_get_main_queue()) {
+                self.tableView.reloadData()
+            }
+        }
+    }
+    
+    
+    // MARK: SearchBarDelegate Methods
+    func searchBarSearchButtonClicked(searchBar: UISearchBar) {
+        searchQuery = searchBase + searchBar.text!
+        
+        searchRequest()
+        
+        searchBar.resignFirstResponder()
+        
+    }
+    
+    // MARK: - Segues
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "showDetail" {
+            if let indexPath = self.tableView.indexPathForSelectedRow {
+                
+                // get clicked object
+                let searchResult = searchResponse[indexPath.row] as [String:AnyObject]
+                
+                // set controller to pass to
+                let controller = (segue.destinationViewController as! UINavigationController).topViewController as! DetailViewController
+                
+                // set the controller's property
+                controller.detailItem = searchResult
+                
+                // not sure what this is
+                controller.navigationItem.leftBarButtonItem = self.splitViewController?.displayModeButtonItem()
+                controller.navigationItem.leftItemsSupplementBackButton = true
+            }
+        }
+    }
+    
     /// Helper functions
     /// creates an alertview for network errors
     func makeAlertForNetworkError() -> Void {
@@ -139,7 +175,39 @@ class MasterViewController: UITableViewController {
             return
         }
     }
-
-
+    
+    func dateFormatter(dateToBeParsed: String) -> String {
+        
+        // Turn sample string into nsDateObject
+        // - Attributions: http://stackoverflow.com/questions/5185230/converting-an-iso-8601-timestamp-into-an-nsdate-how-does-one-deal-with-the-utc
+        
+        // - Attributions: http://userguide.icu-project.org/formatparse/datetime got codes from here
+        let dateFormatter = NSDateFormatter()
+        dateFormatter.locale = NSLocale(localeIdentifier: "en_US_POSIX")
+        dateFormatter.dateFormat = "EEE, d MMM yyyy HH:mm:ss Z"
+        let nsDateObject = dateFormatter.dateFromString(dateToBeParsed)
+        
+        // Turn nsDate Object into correctly formatted date string
+        // - Attributions: http://nshipster.com/nsformatter/
+        // creating NSDateFormatter
+        let formatter = NSDateFormatter()
+        formatter.dateStyle = .MediumStyle
+        formatter.timeStyle = .ShortStyle
+        
+        //output
+        let formattedDateString = formatter.stringFromDate(nsDateObject!)
+        return formattedDateString
+    }
+    
 }
 
+/// - Attributions: lecture slides 8 
+// extends String to provide a method for handling html tags
+extension String {
+    func html2attributedString() -> NSAttributedString {
+        let attrStr = try! NSAttributedString( data: self.dataUsingEncoding(NSUnicodeStringEncoding, allowLossyConversion: true)!,
+            options: [ NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType],
+            documentAttributes: nil)
+        return attrStr
+    }
+}

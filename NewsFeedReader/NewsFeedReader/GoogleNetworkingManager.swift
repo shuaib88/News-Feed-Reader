@@ -39,7 +39,7 @@ class GoogleNetworkingManager {
             }
             
             // Print response header (for debugging)
-            print(response)
+//            print(response)
             
             // Test if data has value else set to nil
             guard let data = data else {
