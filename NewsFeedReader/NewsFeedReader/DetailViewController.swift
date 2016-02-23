@@ -77,7 +77,6 @@ class DetailViewController: UIViewController, DetailBookmarkDelegate {
     /// MARK: Segues and actions
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "presentAsPopover" {
-            print("Present as popover segue triggered")
             
             // setting the DetailViewController to be delegate of Bookmark
             let destinationBookmarkController = segue.destinationViewController as! BookMarkViewController
@@ -127,11 +126,6 @@ class DetailViewController: UIViewController, DetailBookmarkDelegate {
     
     /// - Attributions: https://www.youtube.com/watch?v=Rva9ylPHi2w
     func loadAddressUrl() {
-
-//        let requestURL = NSURL(string: url!)
-//        let request = NSURLRequest(URL: requestURL!)
-//        print(request.dynamicType)
-        
         if let url = url {
             if let requestURL = NSURL(string: url) {
                 let request = NSURLRequest(URL: requestURL)
@@ -144,7 +138,6 @@ class DetailViewController: UIViewController, DetailBookmarkDelegate {
         // set detailItem to selected object
         detailItem = clickedFavoriteObject
         configureView()
-        print("bookMarkPassed is being called")
     }
     
 }
