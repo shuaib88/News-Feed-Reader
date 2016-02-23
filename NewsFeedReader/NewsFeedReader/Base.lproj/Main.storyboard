@@ -48,6 +48,12 @@
                                             <action selector="addToBookmark:" destination="JEX-9P-axG" id="fQn-Ff-TCE"/>
                                         </connections>
                                     </barButtonItem>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="QHv-h3-Hre"/>
+                                    <barButtonItem systemItem="action" id="yoC-Gs-jih">
+                                        <connections>
+                                            <action selector="tweet:" destination="JEX-9P-axG" id="hEM-iC-tiP"/>
+                                        </connections>
+                                    </barButtonItem>
                                 </items>
                             </toolbar>
                         </subviews>
@@ -148,7 +154,6 @@
                                             <outlet property="contentLabel" destination="bMf-OZ-QkD" id="ygx-WD-gSR"/>
                                             <outlet property="dateLabel" destination="gqS-nO-bgk" id="bd8-rq-AgB"/>
                                             <outlet property="titleLabel" destination="UWu-AE-MTA" id="nm7-Rx-qUD"/>
-                                            <segue destination="vC3-pB-5Vb" kind="showDetail" identifier="showDetailFromBookmarks" id="cXd-kA-Oy4"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -303,6 +308,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="cXd-kA-Oy4"/>
+        <segue reference="Tll-UG-LXB"/>
     </inferredMetricsTieBreakers>
 </document>

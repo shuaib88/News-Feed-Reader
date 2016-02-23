@@ -10,6 +10,8 @@ import SafariServices
 
 import UIKit
 
+import Social
+
 class DetailViewController: UIViewController, DetailBookmarkDelegate {
 
     
@@ -72,10 +74,15 @@ class DetailViewController: UIViewController, DetailBookmarkDelegate {
                 self.configureView()
     }
     
-    /// MARK: Segues
+    /// MARK: Segues and actions
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "presentAsPopover" {
             print("Present as popover segue triggered")
+            
+            // setting the DetailViewController to be delegate of Bookmark
+            let destinationBookmarkController = segue.destinationViewController as! BookMarkViewController
+            
+            destinationBookmarkController.delegate = self
         }
     }
     @IBAction func addToBookmark(sender: UIBarButtonItem) {
@@ -95,6 +102,26 @@ class DetailViewController: UIViewController, DetailBookmarkDelegate {
         }
         
     }
+    
+    /// - Attributions: https://www.codementor.io/swift/tutorial/ios-development-facebook-twitter-sharing
+    @IBAction func tweet(sender: UIBarButtonItem) {
+        if SLComposeViewController.isAvailableForServiceType(SLServiceTypeTwitter) {
+            
+            let tweetShare:SLComposeViewController = SLComposeViewController(forServiceType: SLServiceTypeTwitter)
+            
+            self.presentViewController(tweetShare, animated: true, completion: nil)
+            
+        } else {
+            
+            let alert = UIAlertController(title: "Accounts", message: "Please login to a Twitter account to tweet.", preferredStyle: UIAlertControllerStyle.Alert)
+            
+            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
+            
+            self.presentViewController(alert, animated: true, completion: nil)
+        }
+
+    }
+    
     
     /// MARK: Safari Controller Methods
     
