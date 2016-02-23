@@ -69,6 +69,10 @@ class BookMarkViewController: UIViewController, UITableViewDelegate, UITableView
 
     }
     
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        return 137
+    }
+    
     // allows delete or insert to happen
     func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         if editingStyle == .Delete {

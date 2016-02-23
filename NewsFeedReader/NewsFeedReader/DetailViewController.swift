@@ -12,14 +12,16 @@ import UIKit
 
 import Social
 
-class DetailViewController: UIViewController, DetailBookmarkDelegate {
+class DetailViewController: UIViewController, DetailBookmarkDelegate, UIWebViewDelegate {
 
     
     // MARK: Properties
     @IBOutlet var webView: UIWebView!
     
     @IBOutlet weak var toolbar: UIToolbar!
+
     // user defaults
+    var _activityIndicator: activityIndicator?
     
     let defaults = NSUserDefaults.standardUserDefaults()
 
@@ -67,6 +69,8 @@ class DetailViewController: UIViewController, DetailBookmarkDelegate {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
 //        self.configureView()
+        
+        webView.delegate = self
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -80,7 +84,7 @@ class DetailViewController: UIViewController, DetailBookmarkDelegate {
             
             // setting the DetailViewController to be delegate of Bookmark
             let destinationBookmarkController = segue.destinationViewController as! BookMarkViewController
-            
+            print(segue.destinationViewController.dynamicType)
             destinationBookmarkController.delegate = self
         }
     }
@@ -118,7 +122,29 @@ class DetailViewController: UIViewController, DetailBookmarkDelegate {
             
             self.presentViewController(alert, animated: true, completion: nil)
         }
-
+    }
+    
+    func webViewDidStartLoad(webView: UIWebView) {
+        
+        if let _ = _activityIndicator {
+        } else {
+            self._activityIndicator = activityIndicator()
+            self.view.addSubview(_activityIndicator!)
+        }
+        
+//        guard webView.loading == false else {
+//            return
+//        }
+    }
+    
+    func webViewDidFinishLoad(webView: UIWebView) {
+        
+        guard webView.loading == false else {
+            return
+        }
+        
+        self._activityIndicator!.removeFromSuperview()
+        print("webview finished loading")
     }
     
     
@@ -130,9 +156,13 @@ class DetailViewController: UIViewController, DetailBookmarkDelegate {
             if let requestURL = NSURL(string: url) {
                 let request = NSURLRequest(URL: requestURL)
                 webView.loadRequest(request)
+                
+                // add an activity spinner
             }
         }
     }
+    
+    
     // not sure how to use this
     func bookmarkPassedObject(clickedFavoriteObject: [String:AnyObject]) {
         // set detailItem to selected object
