@@ -63,7 +63,7 @@ class MasterViewController: UITableViewController, UISearchBarDelegate {
         searchRequest()
         
         // adding target (self) and action to refreshControl object of tableViewController
-        self.refreshControl?.addTarget(self, action: "refreshTable:", forControlEvents: UIControlEvents.ValueChanged)
+        self.refreshControl?.addTarget(self, action: #selector(MasterViewController.refreshTable(_:)), forControlEvents: UIControlEvents.ValueChanged)
     }
 
     // MARK: - Table View
@@ -126,7 +126,10 @@ class MasterViewController: UITableViewController, UISearchBarDelegate {
     // search request
     func searchRequest() -> Void {
         
-        GoogleNetworkingManager.sharedInstance.searchRequest(self.searchQuery!) { (response) -> Void in
+        /// - Attributions: http://stackoverflow.com/questions/24879659/how-to-encode-a-url-in-swift
+        let url = self.searchQuery!.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())
+        
+        GoogleNetworkingManager.sharedInstance.searchRequest(url!) { (response) -> Void in
             
             // Test that response is not nil and unwrap
             // if nil then return so prevent reloading table unecesarily.
@@ -185,7 +188,6 @@ class MasterViewController: UITableViewController, UISearchBarDelegate {
                 // not sure what this is
                 controller.navigationItem.leftBarButtonItem = self.splitViewController?.displayModeButtonItem()
                 controller.navigationItem.leftItemsSupplementBackButton = true
-                print("splitViewController in Master \(self.splitViewController)")
             }
         }
     }

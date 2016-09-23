@@ -15,13 +15,15 @@ import Social
 class DetailViewController: UIViewController, DetailBookmarkDelegate, UIWebViewDelegate {
 
     
-    // MARK: Properties
+    /// MARK: Properties
     @IBOutlet var webView: UIWebView!
     
     @IBOutlet weak var toolbar: UIToolbar!
 
+    @IBOutlet weak var starImageView: UIImageView!
     // user defaults
-    var _activityIndicator: activityIndicator?
+    
+    var _activityIndicator: ActivityIndicatorView?
     
     let defaults = NSUserDefaults.standardUserDefaults()
 
@@ -64,7 +66,9 @@ class DetailViewController: UIViewController, DetailBookmarkDelegate, UIWebViewD
             }
         }
     }
-
+    
+    /// MARK: Lifecycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -76,6 +80,19 @@ class DetailViewController: UIViewController, DetailBookmarkDelegate, UIWebViewD
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
                 self.configureView()
+        
+        checkIfCurrentArticleInFavorites()
+        
+//        let favoritesArray = defaults.valueForKey("favoritesArray") as! [[String:AnyObject]]
+//        
+//        for savedFavorite in favoritesArray {
+//            
+//            if savedFavorite["unescapedUrl"] as! String == detailItem!["unescapedUrl"] as! String {
+//                view.bringSubviewToFront(starImageView)
+//            } else {
+//                view.sendSubviewToBack(starImageView)
+//            }
+//        }
     }
     
     /// MARK: Segues and actions
@@ -84,8 +101,11 @@ class DetailViewController: UIViewController, DetailBookmarkDelegate, UIWebViewD
             
             // setting the DetailViewController to be delegate of Bookmark
             let destinationBookmarkController = segue.destinationViewController as! BookMarkViewController
-            print(segue.destinationViewController.dynamicType)
             destinationBookmarkController.delegate = self
+            
+            destinationBookmarkController.detailController = self
+            
+            print("popover pressed")
         }
     }
     @IBAction func addToBookmark(sender: UIBarButtonItem) {
@@ -97,6 +117,9 @@ class DetailViewController: UIViewController, DetailBookmarkDelegate, UIWebViewD
             
             // re-add the array to nsuserdefaults
             defaults.setObject(array, forKey: "favoritesArray")
+            
+            // updates star
+            checkIfCurrentArticleInFavorites()
 
         } else {
             // initializes defaults with an empty array of strings
@@ -104,6 +127,20 @@ class DetailViewController: UIViewController, DetailBookmarkDelegate, UIWebViewD
             defaults.setObject(defaultsArray, forKey: "favoritesArray")
         }
         
+    }
+    
+    func checkIfCurrentArticleInFavorites() -> Void {
+        
+        let favoritesArray = defaults.valueForKey("favoritesArray") as! [[String:AnyObject]]
+        
+        for savedFavorite in favoritesArray {
+            
+            if savedFavorite["unescapedUrl"] as! String == detailItem!["unescapedUrl"] as! String {
+                view.bringSubviewToFront(starImageView)
+            } else {
+                view.sendSubviewToBack(starImageView)
+            }
+        }
     }
     
     /// - Attributions: https://www.codementor.io/swift/tutorial/ios-development-facebook-twitter-sharing
@@ -124,30 +161,6 @@ class DetailViewController: UIViewController, DetailBookmarkDelegate, UIWebViewD
         }
     }
     
-    func webViewDidStartLoad(webView: UIWebView) {
-        
-        if let _ = _activityIndicator {
-        } else {
-            self._activityIndicator = activityIndicator()
-            self.view.addSubview(_activityIndicator!)
-        }
-        
-//        guard webView.loading == false else {
-//            return
-//        }
-    }
-    
-    func webViewDidFinishLoad(webView: UIWebView) {
-        
-        guard webView.loading == false else {
-            return
-        }
-        
-        self._activityIndicator!.removeFromSuperview()
-        print("webview finished loading")
-    }
-    
-    
     /// MARK: Safari Controller Methods
     
     /// - Attributions: https://www.youtube.com/watch?v=Rva9ylPHi2w
@@ -162,6 +175,22 @@ class DetailViewController: UIViewController, DetailBookmarkDelegate, UIWebViewD
         }
     }
     
+    func webViewDidStartLoad(webView: UIWebView) {
+        
+        if let _ = _activityIndicator {
+        } else {
+            self._activityIndicator = ActivityIndicatorView()
+            self.view.addSubview(_activityIndicator!)
+        }
+    }
+    
+    func webViewDidFinishLoad(webView: UIWebView) {
+        
+        guard webView.loading == false else {
+            return
+        }
+        self._activityIndicator!.removeFromSuperview()
+    }
     
     // not sure how to use this
     func bookmarkPassedObject(clickedFavoriteObject: [String:AnyObject]) {

@@ -56,6 +56,13 @@
                                     </barButtonItem>
                                 </items>
                             </toolbar>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="star" translatesAutoresizingMaskIntoConstraints="NO" id="nEV-xu-P96">
+                                <rect key="frame" x="530" y="94" width="40" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="40" id="MJX-e1-mtX"/>
+                                    <constraint firstAttribute="height" constant="40" id="kRZ-vH-4AR"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
@@ -65,6 +72,8 @@
                             <constraint firstItem="eh4-wD-LJT" firstAttribute="leading" secondItem="svH-Pt-448" secondAttribute="leading" id="Qyc-Wi-G57"/>
                             <constraint firstItem="cX0-QG-gQU" firstAttribute="top" secondItem="eh4-wD-LJT" secondAttribute="bottom" id="StO-VJ-dhC"/>
                             <constraint firstItem="eh4-wD-LJT" firstAttribute="top" secondItem="SYR-Wa-9uf" secondAttribute="bottom" id="TJy-7Q-lxI"/>
+                            <constraint firstItem="nEV-xu-P96" firstAttribute="top" secondItem="SYR-Wa-9uf" secondAttribute="bottom" constant="30" id="VCL-p7-eNJ"/>
+                            <constraint firstAttribute="trailing" secondItem="nEV-xu-P96" secondAttribute="trailing" constant="30" id="Vov-Tb-Ryv"/>
                             <constraint firstItem="cX0-QG-gQU" firstAttribute="top" secondItem="eh4-wD-LJT" secondAttribute="bottom" id="jXp-1y-KaK"/>
                             <constraint firstItem="cX0-QG-gQU" firstAttribute="leading" secondItem="svH-Pt-448" secondAttribute="leading" id="l1L-QU-rgk"/>
                         </constraints>
@@ -80,6 +89,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="starImageView" destination="nEV-xu-P96" id="2OY-fF-CgT"/>
                         <outlet property="toolbar" destination="cX0-QG-gQU" id="xTl-p9-2tU"/>
                         <outlet property="webView" destination="eh4-wD-LJT" id="S8b-oi-SUq"/>
                     </connections>
@@ -318,6 +328,9 @@
             <point key="canvasLocation" x="-45" y="129"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="star" width="25" height="25"/>
+    </resources>
     <inferredMetricsTieBreakers>
         <segue reference="Tll-UG-LXB"/>
     </inferredMetricsTieBreakers>

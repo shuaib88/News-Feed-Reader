@@ -14,6 +14,9 @@ class BookMarkViewController: UIViewController, UITableViewDelegate, UITableView
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var toolbar: UIToolbar!
     
+    // refrence to detailViewController
+    weak var detailController: DetailViewController?
+    
     weak var delegate: DetailBookmarkDelegate?
     
     // the array that has stuff in it
@@ -79,6 +82,10 @@ class BookMarkViewController: UIViewController, UITableViewDelegate, UITableView
             favoritesArray!.removeAtIndex(indexPath.row)
             deleteFavoriteItem(indexPath.row)
             tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
+            
+            //update favorites star
+            detailController!.checkIfCurrentArticleInFavorites()
+            
         } else if editingStyle == .Insert {
             // not implementing insert
         }

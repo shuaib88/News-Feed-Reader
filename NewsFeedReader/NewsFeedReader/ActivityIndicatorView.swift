@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class activityIndicator: UIView {
+class ActivityIndicatorView: UIView {
 
     // initialize the frame
     
