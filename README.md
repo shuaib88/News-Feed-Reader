@@ -17,3 +17,8 @@ Timestamp formatting - http://stackoverflow.com/questions/5185230/converting-an-
 Date time codes referenced here http://userguide.icu-project.org/formatparse/datetime <br />
 Date formatting - http://nshipster.com/nsformatter/ <br />
 SearchBar - http://shrikar.com/swift-ios-tutorial-uisearchbar-and-uisearchbardelegate/ <br />
+
+## Notes
+
+Google AJAX API is deprecated, need to replace the url builder with updated API and adjust any modified JSON fields
+

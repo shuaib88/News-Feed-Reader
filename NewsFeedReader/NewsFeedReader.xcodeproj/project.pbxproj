@@ -164,9 +164,11 @@
 				TargetAttributes = {
 					98F1F68A1C7649C900D55AC1 = {
 						CreatedOnToolsVersion = 7.2.1;
+						LastSwiftMigration = 0830;
 					};
 					98F1F6A01C7649C900D55AC1 = {
 						CreatedOnToolsVersion = 7.2.1;
+						LastSwiftMigration = 0830;
 						TestTargetID = 98F1F68A1C7649C900D55AC1;
 					};
 				};
@@ -355,6 +357,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.shuaibLabs.NewsFeedReader;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -366,6 +369,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.shuaibLabs.NewsFeedReader;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
@@ -377,6 +381,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.shuaibLabs.NewsFeedReaderTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/NewsFeedReader.app/NewsFeedReader";
 			};
 			name = Debug;
@@ -389,6 +394,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.shuaibLabs.NewsFeedReaderTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/NewsFeedReader.app/NewsFeedReader";
 			};
 			name = Release;

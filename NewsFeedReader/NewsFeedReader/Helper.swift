@@ -9,26 +9,26 @@
 import Foundation
 
 class Helper {
-    static func dateFormatter(dateToBeParsed: String) -> String {
+    static func dateFormatter(_ dateToBeParsed: String) -> String {
         
         // Turn sample string into nsDateObject
         /// - Attributions: http://stackoverflow.com/questions/5185230/converting-an-iso-8601-timestamp-into-an-nsdate-how-does-one-deal-with-the-utc
         
         /// - Attributions: http://userguide.icu-project.org/formatparse/datetime got codes from here
-        let dateFormatter = NSDateFormatter()
-        dateFormatter.locale = NSLocale(localeIdentifier: "en_US_POSIX")
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale(identifier: "en_US_POSIX")
         dateFormatter.dateFormat = "EEE, d MMM yyyy HH:mm:ss Z"
-        let nsDateObject = dateFormatter.dateFromString(dateToBeParsed)
+        let nsDateObject = dateFormatter.date(from: dateToBeParsed)
         
         // Turn nsDate Object into correctly formatted date string
         /// - Attributions: http://nshipster.com/nsformatter/
         // creating NSDateFormatter
-        let formatter = NSDateFormatter()
-        formatter.dateStyle = .MediumStyle
-        formatter.timeStyle = .ShortStyle
+        let formatter = DateFormatter()
+        formatter.dateStyle = .medium
+        formatter.timeStyle = .short
         
         //output
-        let formattedDateString = formatter.stringFromDate(nsDateObject!)
+        let formattedDateString = formatter.string(from: nsDateObject!)
         return formattedDateString
     }
 }

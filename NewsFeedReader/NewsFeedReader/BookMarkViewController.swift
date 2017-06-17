@@ -23,7 +23,7 @@ class BookMarkViewController: UIViewController, UITableViewDelegate, UITableView
     var favoritesArray: [[String:AnyObject]]?
     
     // defaults dictionary
-    let defaults = NSUserDefaults.standardUserDefaults()
+    let defaults = UserDefaults.standard
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,21 +34,21 @@ class BookMarkViewController: UIViewController, UITableViewDelegate, UITableView
         tableView.dataSource = self;
         
         // set favorites array from the defaults dictionary
-        favoritesArray = defaults.objectForKey("favoritesArray") as! [[String:AnyObject]]?
+        favoritesArray = defaults.object(forKey: "favoritesArray") as! [[String:AnyObject]]?
 
     }
     
     // MARK: - TableView Methods
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return favoritesArray!.count
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("MasterTableViewCell", forIndexPath: indexPath) as! MasterTableViewCell
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "MasterTableViewCell", for: indexPath) as! MasterTableViewCell
 
         let savedBookmarkItem = favoritesArray![indexPath.row]
         
@@ -72,54 +72,54 @@ class BookMarkViewController: UIViewController, UITableViewDelegate, UITableView
 
     }
     
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 137
     }
     
     // allows delete or insert to happen
-    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        if editingStyle == .Delete {
-            favoritesArray!.removeAtIndex(indexPath.row)
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            favoritesArray!.remove(at: indexPath.row)
             deleteFavoriteItem(indexPath.row)
-            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
+            tableView.deleteRows(at: [indexPath], with: .fade)
             
             //update favorites star
             detailController!.checkIfCurrentArticleInFavorites()
             
-        } else if editingStyle == .Insert {
+        } else if editingStyle == .insert {
             // not implementing insert
         }
     }
     
-    func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         return true
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let selectedObject = favoritesArray![indexPath.row]
         delegate?.bookmarkPassedObject(selectedObject)
-        self.dismissViewControllerAnimated(true, completion: nil)
+        self.dismiss(animated: true, completion: nil)
 
     }
     
     // MARK: edit methods
     
     // stuck on how to make editing mode work
-    @IBAction func enterEditingMode(sender: AnyObject) {
-        editing = !editing
-        tableView.setEditing(editing, animated: true)
+    @IBAction func enterEditingMode(_ sender: AnyObject) {
+        isEditing = !isEditing
+        tableView.setEditing(isEditing, animated: true)
     }
     
     // delete item from bookmarks array
-    func deleteFavoriteItem(index: Int) -> Void {
+    func deleteFavoriteItem(_ index: Int) -> Void {
         // if defaults has values, add item to bookmarks dictionary
-        var array = defaults.objectForKey("favoritesArray") as! [[String:AnyObject]]?
+        var array = defaults.object(forKey: "favoritesArray") as! [[String:AnyObject]]?
             
         // append item to array
-        array!.removeAtIndex(index)
+        array!.remove(at: index)
         
         // re-add the array to nsuserdefaults
-        defaults.setObject(array, forKey: "favoritesArray")
+        defaults.set(array, forKey: "favoritesArray")
     }
     
 }

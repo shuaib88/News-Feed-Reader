@@ -15,29 +15,29 @@ class GoogleNetworkingManager {
     static let sharedInstance = GoogleNetworkingManager()
     
     // prevent others from instantiating this
-    private init() {}
+    fileprivate init() {}
     
     // func takes a url and a completion block  --> doesn't return anything accept
     // what's in the completion block
-    func searchRequest(urlString: String, completion: ([String: AnyObject]?) -> Void) {
+    func searchRequest(_ urlString: String, completion: @escaping ([String: AnyObject]?) -> Void) {
         
         /// - Attributions: http://www.ioscreator.com/tutorials/display-activity-indicator-status-bar-ios8-swift
         // start networking activity indicator
-        UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+        UIApplication.shared.isNetworkActivityIndicatorVisible = true
         
         // convert string into an NSURL object
-        guard let url = NSURL(string: urlString)
+        guard let url = URL(string: urlString)
             else { fatalError("No URL") }
         
         // Create an 'NSURLSession' singleton Object
-        let session = NSURLSession.sharedSession()
+        let session = URLSession.shared
         
         // Create a task for the session object to complete takes a URL and completion block
-        let task = session.dataTaskWithURL(url, completionHandler: { (data, response, error) -> Void in
+        let task = session.dataTask(with: url, completionHandler: { (data, response, error) -> Void in
             
             // Guard against errors during download if exist -> populate the completion block as nil
             guard error == nil else {
-                print("error: \(error!.localizedDescription): \(error!.userInfo)")
+                print("error: \(error!.localizedDescription): \(error!._userInfo)")
                 completion (nil)
                 return
             }
@@ -55,7 +55,7 @@ class GoogleNetworkingManager {
             // Unserialize the JSON into an Array of Dictionaries and 
             // Pass as parameter to completion block
             do {
-                let json = try NSJSONSerialization.JSONObjectWithData(data, options: .AllowFragments)
+                let json = try JSONSerialization.jsonObject(with: data, options: .allowFragments)
                 if let searchResponse = json as? [String: AnyObject] {
                     completion(searchResponse)
                 }
@@ -65,7 +65,7 @@ class GoogleNetworkingManager {
             }
             
             // turn off network activity
-            UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+            UIApplication.shared.isNetworkActivityIndicatorVisible = false
         })
         
         // Start the downloading. NSURLSession objects are created in the paused state, so to start it we need to tell it to resume

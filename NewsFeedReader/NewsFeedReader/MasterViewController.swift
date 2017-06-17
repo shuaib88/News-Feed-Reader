@@ -26,7 +26,7 @@ class MasterViewController: UITableViewController, UISearchBarDelegate {
     let searchBase = "https://ajax.googleapis.com/ajax/services/search/news?v=1.1&rsz=large&q="
   
     // defaults
-    let defaults = NSUserDefaults.standardUserDefaults()
+    let defaults = UserDefaults.standard
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,8 +45,8 @@ class MasterViewController: UITableViewController, UISearchBarDelegate {
         }
         
         // initialize a search
-        if let _ = defaults.objectForKey("lastSearchTerm") {
-            let savedSearchTerm = defaults.objectForKey("lastSearchTerm") as! String
+        if let _ = defaults.object(forKey: "lastSearchTerm") {
+            let savedSearchTerm = defaults.object(forKey: "lastSearchTerm") as! String
             searchQuery = searchBase + savedSearchTerm
             print("Saved search term: \(savedSearchTerm) ✌️")
         } else {
@@ -55,30 +55,30 @@ class MasterViewController: UITableViewController, UISearchBarDelegate {
         }
     }
 
-    override func viewWillAppear(animated: Bool) {
-        self.clearsSelectionOnViewWillAppear = self.splitViewController!.collapsed
+    override func viewWillAppear(_ animated: Bool) {
+        self.clearsSelectionOnViewWillAppear = self.splitViewController!.isCollapsed
         super.viewWillAppear(animated)
         
         // search request
         searchRequest()
         
         // adding target (self) and action to refreshControl object of tableViewController
-        self.refreshControl?.addTarget(self, action: #selector(MasterViewController.refreshTable(_:)), forControlEvents: UIControlEvents.ValueChanged)
+        self.refreshControl?.addTarget(self, action: #selector(MasterViewController.refreshTable(_:)), for: UIControlEvents.valueChanged)
     }
 
     // MARK: - Table View
 
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
 
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         return searchResponse.count
     }
 
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("MasterTableViewCell", forIndexPath: indexPath) as! MasterTableViewCell
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "MasterTableViewCell", for: indexPath) as! MasterTableViewCell
 
         let searchResult = searchResponse[indexPath.row]
         
@@ -101,22 +101,22 @@ class MasterViewController: UITableViewController, UISearchBarDelegate {
         return cell
     }
 
-    override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         // Return false if you do not want the specified item to be editable.
         return true
     }
 
-    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        if editingStyle == .Delete {
-            objects.removeAtIndex(indexPath.row)
-            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
-        } else if editingStyle == .Insert {
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            objects.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .fade)
+        } else if editingStyle == .insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
         }
     }
     
     // responds to pull to refresh
-    func refreshTable(refreshControl: UIRefreshControl) {
+    func refreshTable(_ refreshControl: UIRefreshControl) {
         searchRequest()
         refreshControl.endRefreshing()
     }    
@@ -127,7 +127,9 @@ class MasterViewController: UITableViewController, UISearchBarDelegate {
     func searchRequest() -> Void {
         
         /// - Attributions: http://stackoverflow.com/questions/24879659/how-to-encode-a-url-in-swift
-        let url = self.searchQuery!.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())
+        let url = self.searchQuery!.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)
+        
+        print (url)
         
         GoogleNetworkingManager.sharedInstance.searchRequest(url!) { (response) -> Void in
             
@@ -143,7 +145,7 @@ class MasterViewController: UITableViewController, UISearchBarDelegate {
             self.searchResponse = apiCallResponse["responseData"]!["results"]! as! [[String:AnyObject]]
             
             // force a reload data on the main queue
-            dispatch_async(dispatch_get_main_queue()) {
+            DispatchQueue.main.async {
                 self.tableView.reloadData()
             }
         }
@@ -151,14 +153,14 @@ class MasterViewController: UITableViewController, UISearchBarDelegate {
     
     
     // MARK: SearchBarDelegate Methods
-    func searchBarSearchButtonClicked(searchBar: UISearchBar) {
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
 
         let enteredText = searchBar.text!
         // build query
         searchQuery = searchBase + enteredText
         
         // save search term in nsuserdefaults
-        defaults.setObject(enteredText, forKey: "lastSearchTerm")
+        defaults.set(enteredText, forKey: "lastSearchTerm")
         
         // make api call
         searchRequest()
@@ -169,7 +171,7 @@ class MasterViewController: UITableViewController, UISearchBarDelegate {
     }
     
     // MARK: - Segues
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "showDetail" {
             if let indexPath = self.tableView.indexPathForSelectedRow {
                 
@@ -177,16 +179,16 @@ class MasterViewController: UITableViewController, UISearchBarDelegate {
                 let searchResult = searchResponse[indexPath.row] as [String:AnyObject]
                 
                 // set controller to pass to
-                let controller = (segue.destinationViewController as! UINavigationController).topViewController as! DetailViewController
+                let controller = (segue.destination as! UINavigationController).topViewController as! DetailViewController
                 
                 // set the controller's property
                 controller.detailItem = searchResult
                 
                 // save the passed object in nsuserdefaults
-                defaults.setObject(searchResult, forKey: "lastClickedArticle")
+                defaults.set(searchResult, forKey: "lastClickedArticle")
                 
                 // not sure what this is
-                controller.navigationItem.leftBarButtonItem = self.splitViewController?.displayModeButtonItem()
+                controller.navigationItem.leftBarButtonItem = self.splitViewController?.displayModeButtonItem
                 controller.navigationItem.leftItemsSupplementBackButton = true
             }
         }
@@ -195,14 +197,14 @@ class MasterViewController: UITableViewController, UISearchBarDelegate {
     /// Helper functions
     /// creates an alertview for network errors
     func makeAlertForNetworkError() -> Void {
-        let alertController = UIAlertController(title: "Network Error", message: "Get some Internets, Fool 👻👻👻", preferredStyle: .ActionSheet)
+        let alertController = UIAlertController(title: "Network Error", message: "Get some Internets, Fool 👻👻👻", preferredStyle: .actionSheet)
         
-        let OKAction = UIAlertAction(title: "OK", style: .Default) { (action) in
+        let OKAction = UIAlertAction(title: "OK", style: .default) { (action) in
             return
         }
         alertController.addAction(OKAction)
         
-        self.presentViewController(alertController, animated: true) {
+        self.present(alertController, animated: true) {
             return
         }
     }
@@ -213,7 +215,7 @@ class MasterViewController: UITableViewController, UISearchBarDelegate {
 // extends String to provide a method for handling html tags
 extension String {
     func html2attributedString() -> NSAttributedString {
-        let attrStr = try! NSAttributedString( data: self.dataUsingEncoding(NSUnicodeStringEncoding, allowLossyConversion: true)!,
+        let attrStr = try! NSAttributedString( data: self.data(using: String.Encoding.unicode, allowLossyConversion: true)!,
             options: [ NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType],
             documentAttributes: nil)
         return attrStr

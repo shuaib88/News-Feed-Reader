@@ -18,7 +18,7 @@ class ActivityIndicatorView: UIView {
     }
     
     convenience init() {
-        self.init(frame: CGRectMake(0, 0, 100, 100))
+        self.init(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -33,13 +33,13 @@ class ActivityIndicatorView: UIView {
         }
         
         // and create what it looks like
-        self.backgroundColor = UIColor.blueColor()
+        self.backgroundColor = UIColor.blue
         self.layer.cornerRadius = 5
         
         self.center = self.superview!.center
         
         // add spinner to this
-        let spinner = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.White)
+        let spinner = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.white)
         spinner.startAnimating()
         spinner.center.x = self.frame.size.width/2
         spinner.center.y = self.frame.size.height/2
